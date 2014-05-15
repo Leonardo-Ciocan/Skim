@@ -10,6 +10,21 @@ namespace SpeedRead81
 {
     public class Story : INotifyPropertyChanged
     {
+
+        public List<string> Words{get;set;}
+        public int _current = 0;
+        public int CurrentWord
+        {
+            get
+            {
+                return _current;
+            }
+            set
+            {
+                _current = value;
+            }
+        }
+
         private string _name;
         public string Name
         {

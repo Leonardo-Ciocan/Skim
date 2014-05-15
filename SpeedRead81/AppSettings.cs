@@ -9,7 +9,7 @@ using Windows.UI;
 
 namespace SpeedRead81
 {
-    public class AppSettings
+    public class AppSettings : INotifyPropertyChanged
     {
         private double _fontSize;
         public double FontSize

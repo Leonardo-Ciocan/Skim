@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -21,7 +22,7 @@ namespace SpeedRead81
     public partial class ReaderBox : UserControl
     {
         List<string> data;
-        int amount = 15;
+        int amount = 60;
         int font = 19;
 
         public ReaderBox()
@@ -32,18 +33,23 @@ namespace SpeedRead81
 
         SolidColorBrush old = new SolidColorBrush(Colors.Gray);
         SolidColorBrush selected = Application.Current.Resources["ButtonPressedBackgroundThemeBrush"] as SolidColorBrush;
-        public void init(List<String> data)
+        public void init(List<String> data , int currentlyAt)
         {
-            box.Children.Clear();
+            box.Inlines.Clear();
             this.data = data;
-            for (int x = 0; x < Math.Min(amount, data.Count); x++)
+            last = currentlyAt - currentlyAt % amount;
+            current = currentlyAt % amount;
+            for (int x = 0; x < Math.Min(amount, data.Count - currentlyAt); x++)
             {
-                box.Children.Add(new TextBlock {HorizontalAlignment= Windows.UI.Xaml.HorizontalAlignment.Stretch , TextAlignment= Windows.UI.Xaml.TextAlignment.Center, Text = data[x] + " ", FontSize = font, Foreground = new SolidColorBrush((Color)Application.Current.Resources["PhoneForegroundColor"]) });
-                blocks.Add(box.Children[box.Children.Count - 1] as TextBlock);
+                box.Inlines.Add(new Run { Text =  (last + x >= data.Count)
+                    ? "" :data[last+x] + " ", FontSize = font,
+                                          Foreground = (last + x <= currentlyAt) ? ((last + x == currentlyAt) ? selected : old) : new SolidColorBrush((Color)Application.Current.Resources["PhoneForegroundColor"])
+                });
+                blocks.Add(box.Inlines[box.Inlines.Count - 1] as Run);
             }
         }
 
-        List<TextBlock> blocks = new List<TextBlock>();
+        List<Run> blocks = new List<Run>();
         void ReaderBox_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -68,7 +74,7 @@ namespace SpeedRead81
              */
             if (current == amount - 1)
             {
-                foreach (TextBlock c in blocks) c.Foreground = new SolidColorBrush((Color)Application.Current.Resources["PhoneForegroundColor"]);
+                foreach (Run c in blocks) c.Foreground = new SolidColorBrush((Color)Application.Current.Resources["PhoneForegroundColor"]);
                 last += amount;
                 current = 0;
                 for (int x = 0; x < amount; x++)
@@ -85,8 +91,8 @@ namespace SpeedRead81
             }
             if (last + current < data.Count - 1)
             {
-                (box.Children[current] as TextBlock).Foreground  = old;
-                (box.Children[++current] as TextBlock).Foreground = selected;
+                (box.Inlines[current] as Run).Foreground = old;
+                (box.Inlines[++current] as Run).Foreground = selected;
             }
 
         }

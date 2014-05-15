@@ -195,5 +195,11 @@
     <MainPackageIdentityName>27721LeonardoCiocan.MyProgress8.1</MainPackageIdentityName>
     <MainPackageIdentityName>27721LeonardoCiocan.QuizMaker</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windowsphone.com/AppSubmission/AssociationLanding?windowsProductId=2c0ef909-1ec0-405b-9701-f7124f1993c2" />
+  <PackageInfoList LandingUrl="https://dev.windowsphone.com/AppSubmission/AssociationLanding?windowsProductId=2c0ef909-1ec0-405b-9701-f7124f1993c2">
+    <PackageInfo>
+      <OsMinVersion>6.3.0.0</OsMinVersion>
+      <PackageArchitecture>neutral</PackageArchitecture>
+      <PackageMaxArchitectureVersion>1.1.0.1</PackageMaxArchitectureVersion>
+    </PackageInfo>
+  </PackageInfoList>
 </StoreAssociation>

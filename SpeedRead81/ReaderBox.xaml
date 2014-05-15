@@ -11,9 +11,10 @@
 
     <Grid x:Name="LayoutRoot">
 
-        <StackPanel ScrollViewer.VerticalScrollBarVisibility="Visible" Orientation="Vertical" x:Name="box">
+        <StackPanel ScrollViewer.VerticalScrollBarVisibility="Visible" Orientation="Vertical">
             
         </StackPanel>
-
+        <TextBlock x:Name="box"  TextWrapping="Wrap">
+        </TextBlock>
     </Grid>
 </UserControl>

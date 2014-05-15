@@ -48,20 +48,20 @@ namespace SpeedRead81
         
 
         int wpm = 350;
-        public int current = 0;
         DispatcherTimer dt = new DispatcherTimer();
-
-        public void init(String data, ReaderBox box, int wpm)
+        Story story;
+        public void init(Story story, ReaderBox box, int wpm)
         {
+            this.story = story;
             this.wpm = wpm;
             this.box = box;
-            words = data.Split(' ').ToList();
+            words = story.Words;
             txt.Text = words[0];
             dt.Tick += (a, b) =>
             {
-                if (current < words.Count - 1)
+                if (story.CurrentWord < story.Words.Count - 1)
                 {
-                    txt.Text = words[++current];
+                    txt.Text = story.Words[++story.CurrentWord];
                     if (box != null) box.next();
                 }
                 else
@@ -71,7 +71,7 @@ namespace SpeedRead81
             };
             dt.Interval = TimeSpan.FromMinutes(1.0 / wpm);
 
-            box.init(words);
+            box.init(words,story.CurrentWord);
         }
 
 
@@ -90,11 +90,13 @@ namespace SpeedRead81
 
         public void shiftBy(int d)
         {
-            current += d;
-            if (current < words.Count - 1)
+            story.CurrentWord += d;
+            if (story.CurrentWord < words.Count - 1)
             {
-                txt.Text = words[current];
+                txt.Text = words[story.CurrentWord];
             }
+
+            box.init(words, story.CurrentWord);
         }
     }
 }

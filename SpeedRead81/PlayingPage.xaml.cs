@@ -35,6 +35,7 @@ namespace SpeedRead81
                 if(Frame.CanGoBack)Frame.GoBack();
                 b.Handled = true;
             };
+            PlayingPage_OrientationChanged(DisplayInformation.GetForCurrentView(), null);
         }
 
         void PlayingPage_OrientationChanged(DisplayInformation sender, object args)
@@ -43,13 +44,13 @@ namespace SpeedRead81
             {
                 box.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 reader.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
-                BottomAppBar.IsSticky = false;
+                BottomAppBar.ClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
             }
             else
             {
                 box.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 reader.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Top;
-                BottomAppBar.IsSticky = true;
+                BottomAppBar.ClosedDisplayMode = AppBarClosedDisplayMode.Compact;
             }
         }
 
@@ -69,7 +70,7 @@ namespace SpeedRead81
             {
                 play(null, null);
             };
-            reader.init(s.Text, box, s.WPM);
+            reader.init(s, box, s.WPM);
             this.DataContext = st;
             if (!st.ShowText) box.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
