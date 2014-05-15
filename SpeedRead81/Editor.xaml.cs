@@ -97,7 +97,7 @@ namespace SpeedRead81
             s.Words = s.Text.Split(' ').ToList();
 
 
-            SkimBtn.PointerPressed += (a, b) =>
+            /*SkimBtn.PointerPressed += (a, b) =>
             {
                 PointerDown.Stop();
                 Storyboard.SetTargetName(PointerDown.Children[0], "SkimBtn");
@@ -109,7 +109,7 @@ namespace SpeedRead81
                 PointerDown.Stop();
                 Storyboard.SetTargetName(PointerUp.Children[0], "SkimBtn");
                 PointerUp.Begin();
-            };
+            };*/
 
             /*DispatcherTimer dt = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.01) };
             dt.Tick += (a, b) =>
@@ -122,8 +122,36 @@ namespace SpeedRead81
             {
                 el.RenderTransform = new ScaleTransform();
             }
+            backgroundAnimX.Duration = TimeSpan.FromSeconds(8);
+            backgroundAnimX.Begin(); backgroundAnimY.Begin();
+            //backgroundAnimZ.Begin();
 
-            
+            double rx = ActualWidth / 10;
+            double nx = 10;
+            double ny = Math.Floor(ActualHeight / rx);
+
+             SolidColorBrush selected = Application.Current.Resources["ButtonPressedBackgroundThemeBrush"] as SolidColorBrush;
+            for (int y = 0; y < ny; y++)
+            {
+                for (int x = 0; x < nx - 1; x++)
+                {
+                    Ellipse el = new Ellipse { Fill = new SolidColorBrush(Colors.LightGray), Width = rx / 3, Height = rx / 3, Stroke = null, StrokeThickness = 3 };
+                    backgroundCanvas.Children.Add(el);
+                    Canvas.SetLeft(el, x * rx + rx / 3);
+                    Canvas.SetTop(el, y * rx);
+                }
+            }
+
+            int current = 1;
+            DispatcherTimer dt = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
+            dt.Tick += (a, b) =>
+            {
+                current++;
+                (backgroundCanvas.Children[(int)(current % (nx * ny) - 1)] as Ellipse).Fill = new SolidColorBrush(Colors.LightGray);
+                (backgroundCanvas.Children[(int)(current % (nx * ny))] as Ellipse).Fill = selected;
+                
+            };
+            dt.Start();
 
         }
 
